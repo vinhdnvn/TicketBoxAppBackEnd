@@ -7,6 +7,7 @@ import userRouters from "./Routes/UserRouter.js";
 import movieRouters from "./Routes/MovieRouter.js";
 import gerneRouters from "./Routes/GerneRouter.js";
 import { errorHandler } from "./middlewares/errorMiddleware.js";
+import uploadRouters from "./Routes/UploadRouter.js";
 
 dotenv.config();
 
@@ -30,6 +31,7 @@ app.use(errorHandler);
 app.use("/api/users", userRouters);
 app.use("/api/movies", movieRouters);
 app.use("/api/gernes", gerneRouters);
+app.use("/api/upload", uploadRouters);
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
