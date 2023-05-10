@@ -88,6 +88,12 @@ const movieSchema = mongoose.Schema(
 			default: 0,
 		},
 		reviews: [reviewSchema],
+		// add 1 field show that movie belong to cinema model
+		cinema: {
+			type: mongoose.Schema.Types.ObjectId,
+			ref: "Cinema",
+			required: true,
+		},
 	},
 	{ timestamps: true }
 );

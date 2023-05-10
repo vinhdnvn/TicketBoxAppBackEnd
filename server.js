@@ -6,8 +6,10 @@ import mongoose from "mongoose";
 import userRouters from "./Routes/UserRouter.js";
 import movieRouters from "./Routes/MovieRouter.js";
 import gerneRouters from "./Routes/GerneRouter.js";
+import cinemaRouters from "./Routes/CinemaRouter.js";
 import { errorHandler } from "./middlewares/errorMiddleware.js";
 import uploadRouters from "./Routes/UploadRouter.js";
+import bookingRouters from "./Routes/BookingRouter.js";
 
 dotenv.config();
 
@@ -32,6 +34,8 @@ app.use("/api/users", userRouters);
 app.use("/api/movies", movieRouters);
 app.use("/api/gernes", gerneRouters);
 app.use("/api/upload", uploadRouters);
+app.use("/api/cinemas", cinemaRouters);
+app.use("/api/bookings", bookingRouters);
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
