@@ -22,16 +22,6 @@ initializeApp(config.firebase);
 // initialize cloud storage  and get the reference  to the service
 const storage = getStorage();
 
-// define storage
-// const bucket = storage.bucket();
-
-// const Uploadrouter = express.Router();
-
-// define upload multer
-// const upload = multer({
-// 	storage: multer.memoryStorage(),
-// });
-
 // @desc Upload file
 // @route POST /api/upload
 // @access Private
@@ -60,34 +50,6 @@ const uploadFile = asyncHandler(async (req, res) => {
 			res.status(400);
 			throw new Error("Invalid file data");
 		}
-
-		// if (file) {
-		// 	const timestamp = Date.now();
-		// 	const filename = `${timestamp}_${file.name}`;
-		// 	const fileref = bucket.file(filename);
-		// 	const metadata = {
-		// 		contentType: file.mimetype,
-		// 		metadata: {
-		// 			timestamp: timestamp.toString(),
-		// 		},
-		// 	};
-
-		// 	await uploadBytes(fileref, file.buffer, metadata)
-		// 		.then((snapshot) => {
-		// 			console.log("Uploaded a blob or file!");
-		// 			// res with url file
-		// 			res.status(201).json({
-		// 				message: "Upload file success",
-		// 				url: `https://firebasestorage.googleapis.com/v0/b/${bucket.name}/o/${filename}?alt=media`,
-		// 			});
-		// 		})
-		// 		.catch((error) => {
-		// 			console.error(error);
-		// 			res.status(400).json({ message: error.message });
-		// 		});
-		// } else {
-		// 	res.status(400).json({ message: "File not found" });
-		// }
 	} catch (error) {
 		res.status(400).json({ message: error.message, error: "dcmm" });
 	}
