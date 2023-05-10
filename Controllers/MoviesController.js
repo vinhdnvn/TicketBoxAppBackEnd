@@ -1,5 +1,6 @@
 import Movie from "../Models/MovieModels.js";
 import asyncHandler from "express-async-handler";
+import Cinema from "../Models/cinemaModels.js";
 
 // **************** ADMIN CONTROLLERS ****************
 // @desc add new movies
@@ -39,6 +40,55 @@ const addMovies = asyncHandler(async (req, res) => {
 		// save movie
 		const createdMovie = await movie.save();
 		res.status(201).json({ message: "Movie created successfully", createdMovie });
+	} catch (error) {
+		res.status(400).json({ message: error.message });
+	}
+});
+
+// @desc add new movies to cinema
+// @route POST /api/movies/:id
+// @access Public
+const addMoviesToCinema = asyncHandler(async (req, res) => {
+	try {
+		const {
+			nameMovie,
+			gerne,
+			time,
+			video,
+			language,
+			rating,
+			year,
+			rottenTomatoes,
+			ign,
+			image,
+			description,
+			stars,
+		} = req.body;
+		const cinema = await Cinema.findById(req.params._id);
+		if (cinema) {
+			// create new movie
+			const movie = new Movie({
+				nameMovie,
+				gerne,
+				time,
+				video,
+				language,
+				rating,
+				year,
+				rottenTomatoes,
+				ign,
+				image,
+				description,
+				stars,
+			});
+			cinema.movies.push(movie);
+			const updatedCinema = await cinema.save();
+			//   res.json({ message: "Movies added to cinema successfully", updatedCinema });
+			// response with cinema name and movies data
+			res.json({ cinemaName: cinema.name, movies: updatedCinema.movies });
+		} else {
+			res.status(404).json({ message: "Cinema not found" });
+		}
 	} catch (error) {
 		res.status(400).json({ message: error.message });
 	}
@@ -254,4 +304,5 @@ export {
 	createMovieReview,
 	updateMovie,
 	deleteMovie,
+	addMoviesToCinema,
 };
