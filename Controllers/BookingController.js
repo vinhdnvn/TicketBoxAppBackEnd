@@ -3,6 +3,31 @@ import asyncHandler from "express-async-handler";
 import User from "../Models/UserModels.js";
 
 // **************** ADMIN CONTROLLERS ****************
+//  @desc delete booking from 1 user
+//  @route DELETE /api/booking/:id
+//  @access Private
+const deleteBookingFromUser = asyncHandler(async (req, res) => {
+	try {
+		const user = await User.findById(req.user._id);
+		if (user) {
+			// delete booking from user
+			const booking = await Booking.findById(req.params._id);
+			if (booking) {
+				user.bookingInformation.pull(booking);
+				await user.save();
+				// delete booking from Booking
+				await booking.remove();
+				res.json({ message: "Booking removed" });
+			} else {
+				res.status(404).json({ message: "Booking not found" });
+			}
+		} else {
+			res.status(404).json({ message: "User not found" });
+		}
+	} catch (error) {
+		res.status(400).json({ message: error.message });
+	}
+});
 
 //  **************** USER CONTROLLERS ****************
 
@@ -11,26 +36,26 @@ import User from "../Models/UserModels.js";
 // @access Public
 const addBookingToUser = asyncHandler(async (req, res) => {
 	try {
-		const { movie, gerne, cinema, date, time, seat, price } = req.body;
+		// find user by id in database
 		const user = await User.findById(req.user._id);
 		if (user) {
-			// create new booking
-			const booking = new Booking({
-				movie,
-				gerne,
-				cinema,
-				date,
-				time,
-				seat,
-				price,
-			});
-			// save booking
+			const booking = {
+				movie: req.body.movie,
+				cinema: req.body.cinema,
+				date: req.body.date,
+				time: req.body.time,
+				seat: req.body.seat,
+				price: req.body.price,
+				gerne: req.body.gerne,
+			};
+			// push the new booking to the bookingInformation array
 			user.bookingInformation.push(booking);
-			const createdBooking = await user.save();
-			// response booking and user id
-			res.status(201).json({ message: "Booking created successfully", createdBooking });
+			// save the booking in datbase
+			await user.save();
+			res.status(201).json({ message: "Booking added" });
 		} else {
-			res.status(404).json({ message: "User not found" });
+			res.status(404);
+			throw new Error("User not found");
 		}
 	} catch (error) {
 		res.status(400).json({ message: error.message });
@@ -54,5 +79,21 @@ const getBookingFromUser = asyncHandler(async (req, res) => {
 	}
 });
 
+// @desc get booking by id
+// @route GET /api/booking/:id
+// @access Public
+const getBookingById = asyncHandler(async (req, res) => {
+	try {
+		const booking = await Booking.findById(req.params._id);
+		if (booking) {
+			res.json(booking);
+		} else {
+			res.status(404).json({ message: "Booking not found" });
+		}
+	} catch (error) {
+		res.status(400).json({ message: error.message });
+	}
+});
+
 // export controllers
-export { addBookingToUser, getBookingFromUser };
+export { addBookingToUser, getBookingFromUser, getBookingById };

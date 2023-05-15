@@ -1,6 +1,7 @@
 import Movie from "../Models/MovieModels.js";
 import asyncHandler from "express-async-handler";
 import Cinema from "../Models/cinemaModels.js";
+import User from "../Models/UserModels.js";
 
 // **************** ADMIN CONTROLLERS ****************
 // @desc add new movies
@@ -113,7 +114,7 @@ const getMovies = asyncHandler(async (req, res) => {
 		};
 		// loasd more movies functionality
 		const page = Number(req.query.pageNumber) || 1;
-		const limit = 2;
+		const limit = 10;
 		const skip = (page - 1) * limit;
 
 		// find movies by query, skip and limit
@@ -295,6 +296,45 @@ const deleteMovie = asyncHandler(async (req, res) => {
 	}
 });
 
+// @descs get the isPopular Movies
+// @route GET /api/movies/popular
+// @access Public
+const getPopularMovies = asyncHandler(async (req, res) => {
+	try {
+		// find the isPopular movies
+		const movies = await Movie.find({ isPopular: true });
+		// send the isPopular movies to the client
+		res.json(movies);
+	} catch (error) {
+		res.status(400).json({ message: error.message });
+		console.log("cant find");
+	}
+});
+
+// @desc like movie by User id and movie id
+// @route PUT /api/movies/:_id/like
+// @access Private
+const likeMovie = asyncHandler(async (req, res) => {
+	const { userId, movieId } = req.body;
+	try {
+		// find movie by id in database
+		const movie = await Movie.findById(movieId);
+		if (movie) {
+			// update the movieId in the likeMovies array in User model
+			await User.findByIdAndUpdate(userId, {
+				$push: { likeMovies: movieId },
+			});
+			res.json({ message: "Movie liked" });
+		} else {
+			res.status(404);
+			throw new Error("Movie not found");
+		}
+	} catch (error) {
+		res.status(400).json({ message: error.message });
+		console.log("cant find");
+	}
+});
+
 export {
 	addMovies,
 	getMovies,
@@ -305,4 +345,5 @@ export {
 	updateMovie,
 	deleteMovie,
 	addMoviesToCinema,
+	getPopularMovies,
 };

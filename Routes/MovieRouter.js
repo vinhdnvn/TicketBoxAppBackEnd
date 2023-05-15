@@ -9,6 +9,8 @@ router.get("/", moviesController.getMovies);
 router.get("/:_id", moviesController.getMovieById);
 router.get("/rated/top", moviesController.getTopRatedMovies);
 router.get("/random/all", moviesController.getRandomMovies);
+router.get("/cinemas/popular", moviesController.getPopularMovies);
+// router.get("/all", moviesController.getAllMovies);
 
 // ADMIN ROUTES
 router.post("/", protect, admin, moviesController.addMovies);

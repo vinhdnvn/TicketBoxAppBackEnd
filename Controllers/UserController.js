@@ -47,6 +47,23 @@ const registerUser = asyncHandler(async (req, res) => {
 	}
 });
 
+// @desc get user by id
+// @route GET /api/users/:id
+// @access Private
+const getUserById = asyncHandler(async (req, res) => {
+	try {
+		const user = await User.findById(req.params._id).select("-password");
+		if (user) {
+			res.json(user);
+		} else {
+			res.status(404);
+			throw new Error("User not found");
+		}
+	} catch (error) {
+		res.status(400).json({ message: error.message });
+	}
+});
+
 // @desc Login user
 // @route POST /api/users/login
 // @access Public
@@ -297,4 +314,5 @@ export {
 	deleteLikedMovies,
 	getUsers,
 	deleteUsers,
+	getUserById,
 };

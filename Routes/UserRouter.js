@@ -9,6 +9,7 @@ import {
 	addLikedMovie,
 	getUsers,
 	deleteLikedMovies,
+	getUserById,
 } from "../Controllers/UserController.js";
 import { protect, admin } from "../middlewares/Auth.js";
 
@@ -16,6 +17,7 @@ const router = express.Router();
 // PUBLIC ROUTES
 router.post("/", registerUser);
 router.post("/login", loginUser);
+router.get("/:_id", getUserById);
 // PRIVATE ROUTES
 router.put("/", protect, updateUserProfile);
 router.delete("/", protect, deleteUser);

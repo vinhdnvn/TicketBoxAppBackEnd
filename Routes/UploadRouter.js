@@ -11,7 +11,7 @@ const upload = multer({
 });
 
 // ADMIN ROUTES
-router.post("/", upload.single("file"), protect, admin, uploadFile);
+router.post("/", upload.single("file"), uploadFile);
 
 // export
 export default router;
