@@ -25,10 +25,13 @@ const bookingSchema = mongoose.Schema(
 			type: String,
 			required: true,
 		},
+
+		// seats is array like ["A1", "A2", "A3"]
 		seat: {
 			type: String,
 			required: true,
 		},
+
 		price: {
 			type: Number,
 			required: true,

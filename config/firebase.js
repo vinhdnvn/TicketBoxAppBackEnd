@@ -3,13 +3,13 @@ import { getStorage } from "firebase/storage";
 
 export default {
 	firebase: {
-		apiKey: "AIzaSyCYSy6HA_wcK6ARpC7L_-r15aj9ZpGryNQ",
-		authDomain: "ticketbox-dd2b9.firebaseapp.com",
-		projectId: "ticketbox-dd2b9",
-		storageBucket: "ticketbox-dd2b9.appspot.com",
-		messagingSenderId: "244272189056",
-		appId: "1:244272189056:web:0ce20051b11617e349a065",
-		measurementId: "G-CLYXRY7DHP",
+		apiKey: process.env.apiKey,
+		authDomain: process.env.authDomain,
+		projectId: process.env.projectId,
+		storageBucket: process.env.storageBucket,
+		messagingSenderId: process.env.messagingSenderId,
+		appId: process.env.appId,
+		measurementId: process.env.measurementId,
 	},
 };
 

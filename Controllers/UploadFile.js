@@ -7,7 +7,6 @@ import {
 	getDownloadURL,
 	uploadBytesResumable,
 } from "firebase/storage";
-import { v4 } from "uuid";
 // import { storage } from "../config/firebase.js";
 import multer from "multer";
 import express from "express";

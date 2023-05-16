@@ -60,12 +60,11 @@ const movieSchema = mongoose.Schema(
 			required: true,
 		},
 		// movies can have many gerne
-		gerne: [
-			{
-				type: String,
-				required: true,
-			},
-		],
+		gerne: {
+			type: String,
+			required: true,
+		},
+
 		stars: {
 			type: Number,
 			required: true,
@@ -73,6 +72,7 @@ const movieSchema = mongoose.Schema(
 		year: {
 			type: Number,
 			required: true,
+			default: 2023,
 		},
 		time: {
 			type: Number,
@@ -87,13 +87,23 @@ const movieSchema = mongoose.Schema(
 			required: true,
 			default: 0,
 		},
+		isPopular: {
+			type: Boolean,
+			default: false,
+		},
 		reviews: [reviewSchema],
 		// add 1 field show that movie belong to cinema model
 		cinema: {
 			type: mongoose.Schema.Types.ObjectId,
 			ref: "Cinema",
-			required: true,
 		},
+		likes: [
+			{
+				type: mongoose.Schema.Types.ObjectId,
+				ref: "User",
+				unique: true,
+			},
+		],
 	},
 	{ timestamps: true }
 );
