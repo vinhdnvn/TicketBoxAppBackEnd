@@ -35,9 +35,11 @@ const deleteBookingFromUser = asyncHandler(async (req, res) => {
 // @route POST /api/booking
 // @access Public
 const addBookingToUser = asyncHandler(async (req, res) => {
+	// take params _id from url
+	const userId = req.params._id;
 	try {
 		// find user by id in database
-		const user = await User.findById(req.user._id);
+		const user = await User.findById(userId);
 		if (user) {
 			const booking = {
 				movie: req.body.movie,

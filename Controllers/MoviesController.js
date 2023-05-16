@@ -296,18 +296,17 @@ const deleteMovie = asyncHandler(async (req, res) => {
 	}
 });
 
-// @descs get the isPopular Movies
+// @desc find list movies by isPopular=true in field isPopular
 // @route GET /api/movies/popular
 // @access Public
 const getPopularMovies = asyncHandler(async (req, res) => {
 	try {
-		// find the isPopular movies
+		// find movies by isPopular=true in field isPopular
 		const movies = await Movie.find({ isPopular: true });
-		// send the isPopular movies to the client
-		res.json(movies);
+		// send movies to the client
+		res.status(200).json(movies);
 	} catch (error) {
 		res.status(400).json({ message: error.message });
-		console.log("cant find");
 	}
 });
 
